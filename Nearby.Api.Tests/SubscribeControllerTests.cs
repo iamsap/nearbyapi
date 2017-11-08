@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -45,7 +46,7 @@ namespace Nearby.Api.Tests
             // arrange
             var controller = new SubscriberController();
             // act
-            var res = controller.Subscribe(new SubscribeRequestDto());
+            var res = controller.Subscribe(new SubscribeRequestDto()).Result;
             // assert
             Assert.IsInstanceOfType(res, typeof(BadRequestResult));
         }
@@ -61,7 +62,7 @@ namespace Nearby.Api.Tests
                 Zipcode = "93311"
             };
             // act
-            controller.Subscribe(req);
+            controller.Subscribe(req).GetAwaiter().GetResult();
             // assert
             mockRepo.Verify(m => m.Save(It.IsAny<Subscription>()), Times.Once());
         }
