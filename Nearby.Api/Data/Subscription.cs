@@ -1,7 +1,7 @@
 ﻿using System;
-namespace Nearby.Api.Dtos
+namespace Nearby.Api.Data
 {
-    public class SubscribeRequestDto
+    public class Subscription
     {
         public string Email { get; set; }
         public string Zipcode { get; set; }

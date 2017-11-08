@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Nearby.Api.Mapping;
+using Nearby.Api.Repositories;
 
 namespace Nearby.Api
 {
@@ -17,7 +20,7 @@ namespace Nearby.Api
         {
             Configuration = configuration;
         }
-
+         
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -25,6 +28,7 @@ namespace Nearby.Api
         {
             services.AddMvc();
             services.AddApiVersioning();
+            services.AddTransient(typeof(IRepository), typeof(Repository));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +40,11 @@ namespace Nearby.Api
             }
 
             app.UseMvc();
+
+            Mapper.Initialize(cfg =>
+            {
+                cfg.AddProfile<NearbyProfile>();
+            });
         }
     }
 }
